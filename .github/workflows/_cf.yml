@@ -1,4 +1,4 @@
-name: Deploy
+name: Cloudflare Pages
 
 on:
   push:
@@ -8,10 +8,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      deployments: write
-    name: Deploy to Cloudflare Pages
+    name: Deploy
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -21,6 +18,3 @@ jobs:
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          projectName:  project-001
-          directory: dist
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
