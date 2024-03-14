@@ -1,5 +1,5 @@
-import db from '@astrojs/db';
-import { defineConfig } from 'astro/config';
+import db from "@astrojs/db";
+import { defineConfig } from "astro/config";
 
 import cloudflare from "@astrojs/cloudflare";
 
@@ -7,5 +7,5 @@ import cloudflare from "@astrojs/cloudflare";
 export default defineConfig({
   integrations: [db()],
   output: "hybrid",
-  adapter: cloudflare()
+  adapter: cloudflare(),
 });
