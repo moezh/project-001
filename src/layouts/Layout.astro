@@ -1,0 +1,76 @@
+---
+import "../styles/main.css";
+
+import Webauthn from "../components/Webauthn.astro";
+import DarkModeSync from "../components/DarkModeSync.astro";
+import DarkModeButton from "../components/DarkModeButton.astro";
+import IntersectionObserver from "../components/IntersectionObserver.astro";
+
+interface Props {
+  title: string;
+  description: string;
+}
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <DarkModeSync />
+  </head>
+  <body class="flex column">
+    <header class="container">
+      <div class="content flex">
+        <a class="flex align-center" href="/" aria-label="COM6 Coding Co.">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="square-xl space-y-small space-x-small"
+          >
+            <path d="m18 16 4-4-4-4"></path>
+            <path d="m6 8-4 4 4 4"></path>
+            <path d="m14.5 4-5 16"></path>
+          </svg>
+        </a>
+        <div class="flex align-center item-grow"></div>
+        <div class="flex align-center">
+          <DarkModeButton />
+          <div class="space-x-small"></div>
+          <Webauthn />
+        </div>
+      </div>
+    </header>
+    <main class="flex item-grow column justify-center">
+      <slot />
+    </main>
+    <footer class="container space-top-xl">
+      <div class="content flex column">
+        <div class="flex">
+          <a href="/contact" aria-label="Contact">Contact</a>
+          <div class="space-x-small"></div>
+          <a href="/privacy-policy" aria-label="Privacy Policy">
+            Privacy Policy
+          </a>
+          <div class="space-x-small"></div>
+          <a href="/terms-of-service" aria-label="Terms of Service">
+            Terms of Service
+          </a>
+        </div>
+        Copyright © {new Date().getFullYear()} - All right reserved
+      </div>
+    </footer>
+    <IntersectionObserver />
+  </body>
+</html>

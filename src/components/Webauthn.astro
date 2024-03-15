@@ -1,0 +1,152 @@
+---
+const challenge = new Uint8Array(16);
+crypto.getRandomValues(challenge);
+---
+
+<button
+  id="auth-button"
+  data-challenge={JSON.stringify(Array.from(challenge))}
+  class={`square-large button-ghost space-y-small space-x-small hidden`}
+  aria-label="Login/Logout"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    id="login-icon"
+    class="square-large hidden"
+  >
+    <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+    <line x1="12" x2="12" y1="2" y2="12"></line>
+  </svg>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    id="logout-icon"
+    class="square-large hidden"
+  >
+    <path d="M18.36 6.64A9 9 0 0 1 20.77 15"></path>
+    <path d="M6.16 6.16a9 9 0 1 0 12.68 12.68"></path>
+    <path d="M12 2v4"></path>
+    <path d="m2 2 20 20"></path>
+  </svg>
+</button>
+
+<script is:inline>
+  const authBtn = document.getElementById("auth-button");
+  const loginIcon = document.getElementById("login-icon");
+  const logoutIcon = document.getElementById("logout-icon");
+  const challenge = new Uint8Array(
+    JSON.parse(authBtn.getAttribute("data-challenge"))
+  );
+
+  if ("credentials" in navigator) {
+    authBtn.classList.remove("hidden");
+    if (JSON.parse(localStorage.getItem("isLogged"))) {
+      logoutIcon.classList.remove("hidden");
+    } else {
+      loginIcon.classList.remove("hidden");
+    }
+  }
+
+  const setIsLogged = (status) => {
+    localStorage.setItem("isLogged", JSON.stringify(status));
+    window.location.reload();
+  };
+
+  const requestCredential = (credential) => {
+    const publicKey = {
+      challenge: challenge,
+      allowCredentials: [
+        {
+          type: "public-key",
+          transports: credential.transports,
+          id: new Uint8Array(credential.rawId).buffer,
+        },
+      ],
+    };
+    navigator.credentials
+      .get({ publicKey })
+      .then((res) => {
+        const response = res.response;
+        localStorage.setItem(
+          "assertion",
+          JSON.stringify({
+            authData: Array.from(new Uint8Array(response.authenticatorData)),
+            clientData: Array.from(new Uint8Array(response.clientDataJSON)),
+            signature: Array.from(new Uint8Array(response.signature)),
+          })
+        );
+        setIsLogged(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const createCredential = () => {
+    const publicKey = {
+      challenge: challenge,
+      pubKeyCredParams: [
+        { type: "public-key", alg: -7 },
+        { type: "public-key", alg: -8 },
+        { type: "public-key", alg: -257 },
+      ],
+      rp: { name: "COM6 Coding Co." },
+      user: {
+        id: new Uint8Array(16),
+        name: "Passkey",
+        displayName: "Passkey",
+      },
+      authenticatorSelection: {
+        authenticatorAttachment: "platform",
+        userVerification: "required",
+      },
+      timeout: 60000,
+      hints: ["client-device"],
+    };
+    navigator.credentials
+      .create({ publicKey })
+      .then((res) => {
+        const response = res.response;
+        localStorage.setItem(
+          "credential",
+          JSON.stringify({
+            rawId: Array.from(new Uint8Array(res.rawId)),
+            algorithm: response.getPublicKeyAlgorithm(),
+            transports: response.getTransports(),
+          })
+        );
+        requestCredential(JSON.parse(localStorage.getItem("credential")));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  authBtn.addEventListener("click", function () {
+    if (JSON.parse(localStorage.getItem("isLogged"))) {
+      setIsLogged(false);
+    } else {
+      const credential = JSON.parse(localStorage.getItem("credential"));
+      if (credential) {
+        requestCredential(credential);
+      } else {
+        createCredential();
+      }
+    }
+  });
+</script>
