@@ -6,6 +6,8 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
+    "db:push": "astro db push",
+    "db:reset": "astro db push --force-reset",
     "preview": "wrangler pages dev dist",
     "astro": "astro"
   },
