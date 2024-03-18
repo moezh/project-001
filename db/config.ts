@@ -2,9 +2,9 @@ import { defineDb, defineTable, column } from "astro:db";
 
 const Auth = defineTable({
   columns: {
-    id: column.number(),
-    description: column.text(),
-    isActive: column.boolean(),
+    id: column.number({ primaryKey: true }),
+    credential: column.text({ optional: true }),
+    isActive: column.boolean({ default: true }),
   },
 });
 

@@ -1,7 +1,7 @@
 ---
 import "../styles/main.css";
 
-import Webauthn from "../components/Webauthn.astro";
+import WebauthnButton from "../components/WebauthnButton.astro";
 import DarkModeSync from "../components/DarkModeSync.astro";
 import DarkModeButton from "../components/DarkModeButton.astro";
 import IntersectionObserver from "../components/IntersectionObserver.astro";
@@ -48,7 +48,7 @@ const { title, description } = Astro.props;
         <div class="flex align-center">
           <DarkModeButton />
           <div class="space-x-small"></div>
-          <Webauthn />
+          <WebauthnButton />
         </div>
       </div>
     </header>

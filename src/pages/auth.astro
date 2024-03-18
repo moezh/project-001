@@ -1,0 +1,19 @@
+---
+import Layout from "../layouts/Layout.astro";
+export const prerender = false;
+const challengeRand = new Uint8Array(16);
+crypto.getRandomValues(challengeRand);
+---
+
+<Layout title="" description="">
+  <div class="container">
+    <div class="content flex column">
+      <div
+        id="challenge"
+        data-challenge={JSON.stringify(Array.from(challengeRand))}
+      >
+        {JSON.stringify(Array.from(challengeRand))}
+      </div>
+    </div>
+  </div>
+</Layout>

@@ -1,0 +1,73 @@
+<button
+  id="auth-button"
+  class={`square-large button-ghost space-y-small space-x-small hidden`}
+  aria-label="Login/Logout"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    id="login-icon"
+    class="square-large hidden"
+  >
+    <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
+    <line x1="12" x2="12" y1="2" y2="12"></line>
+  </svg>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    id="logout-icon"
+    class="square-large hidden"
+  >
+    <path d="M18.36 6.64A9 9 0 0 1 20.77 15"></path>
+    <path d="M6.16 6.16a9 9 0 1 0 12.68 12.68"></path>
+    <path d="M12 2v4"></path>
+    <path d="m2 2 20 20"></path>
+  </svg>
+</button>
+
+<script is:inline>
+  const authBtn = document.getElementById("auth-button");
+  const loginIcon = document.getElementById("login-icon");
+  const logoutIcon = document.getElementById("logout-icon");
+
+  if ("credentials" in navigator) {
+    authBtn.classList.remove("hidden");
+    if (JSON.parse(localStorage.getItem("isLogged"))) {
+      logoutIcon.classList.remove("hidden");
+    } else {
+      loginIcon.classList.remove("hidden");
+    }
+  }
+
+  const setIsLogged = (status) => {
+    localStorage.setItem("isLogged", JSON.stringify(status));
+    if (status) {
+      window.location.href = "/auth";
+    } else {
+      window.location.href = "/";
+    }
+  };
+
+  authBtn.addEventListener("click", function () {
+    console.log(window.location.pathname);
+    if (JSON.parse(localStorage.getItem("isLogged"))) {
+      setIsLogged(false);
+    } else {
+      setIsLogged(true);
+    }
+  });
+</script>

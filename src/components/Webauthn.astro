@@ -1,11 +1,11 @@
 ---
-const challenge = new Uint8Array(16);
-crypto.getRandomValues(challenge);
+const challengeRand = new Uint8Array(16);
+crypto.getRandomValues(challengeRand);
 ---
 
 <button
   id="auth-button"
-  data-challenge={JSON.stringify(Array.from(challenge))}
+  data-challenge={JSON.stringify(Array.from(challengeRand))}
   class={`square-large button-ghost space-y-small space-x-small hidden`}
   aria-label="Login/Logout"
 >
@@ -105,7 +105,7 @@ crypto.getRandomValues(challenge);
         { type: "public-key", alg: -8 },
         { type: "public-key", alg: -257 },
       ],
-      rp: { name: "COM6 Coding Co." },
+      rp: { name: "com6.cc" },
       user: {
         id: new Uint8Array(16),
         name: "Passkey",
@@ -138,14 +138,19 @@ crypto.getRandomValues(challenge);
   };
 
   authBtn.addEventListener("click", function () {
+    console.log(window.location.pathname);
     if (JSON.parse(localStorage.getItem("isLogged"))) {
       setIsLogged(false);
     } else {
-      const credential = JSON.parse(localStorage.getItem("credential"));
-      if (credential) {
-        requestCredential(credential);
+      if (window.location.pathname !== "/auth") {
+        window.location.href = "/auth";
       } else {
-        createCredential();
+        const credential = JSON.parse(localStorage.getItem("credential"));
+        if (credential) {
+          requestCredential(credential);
+        } else {
+          createCredential();
+        }
       }
     }
   });
