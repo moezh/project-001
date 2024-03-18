@@ -1,6 +1,13 @@
-import { defineDb } from "astro:db";
+import { defineDb, defineTable, column } from "astro:db";
 
-// https://astro.build/db/config
+const Auth = defineTable({
+  columns: {
+    id: column.number(),
+    description: column.text(),
+    isActive: column.boolean(),
+  },
+});
+
 export default defineDb({
-  tables: {},
+  tables: { Auth },
 });

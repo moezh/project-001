@@ -8,4 +8,5 @@ export default defineConfig({
   integrations: [db()],
   output: "hybrid",
   adapter: cloudflare(),
+  image: { service: { entrypoint: "astro/assets/services/noop" } },
 });
