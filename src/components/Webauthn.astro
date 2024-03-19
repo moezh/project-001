@@ -34,6 +34,7 @@ const { challenge } = Astro.props;
               signature: Array.from(new Uint8Array(response.signature)),
             })
           );
+          localStorage.setItem("isLogged", JSON.stringify(true));
           window.history.go(-1);
         })
         .catch((err) => {

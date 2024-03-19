@@ -8,11 +8,11 @@ const challenge = new Uint8Array(16);
 crypto.getRandomValues(challenge);
 ---
 
-<Layout title="Authentication" description="Authentication in progress...">
+<Layout title="Login" description="Login in progress...">
   <div class="container">
     <div class="content flex column">
-      <h1>Authentication</h1>
-      <p>{JSON.stringify(Array.from(challenge))}</p>
+      <h1>Login in progress</h1>
+      <p>Challenge: {JSON.stringify(Array.from(challenge))}</p>
       <Webauthn challenge={JSON.stringify(Array.from(challenge))} />
     </div>
   </div>
