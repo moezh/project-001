@@ -56,11 +56,8 @@
   authBtn.addEventListener("click", function () {
     if (JSON.parse(localStorage.getItem("isLogged"))) {
       localStorage.setItem("isLogged", JSON.stringify(false));
-      if (window.location.pathname === "/login") {
-        window.history.go(-1);
-      } else {
-        window.location.reload();
-      }
+      if (window.location.pathname === "/login") window.history.back();
+      window.location.reload();
     } else {
       window.location.href = "/login";
     }
