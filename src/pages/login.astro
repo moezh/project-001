@@ -6,13 +6,53 @@ import Webauthn from "../components/Webauthn.astro";
 
 const challenge = new Uint8Array(16);
 crypto.getRandomValues(challenge);
+
+import { db, Auth, and, lte, eq } from "astro:db";
+await db
+  .delete(Auth)
+  .where(
+    and(
+      lte(Auth.creation_date, new Date(Date.now() - 1000 * 60 * 1)),
+      eq(Auth.credential, "")
+    )
+  );
+await db.insert(Auth).values({
+  creation_date: new Date(Date.now()),
+  challenge: JSON.stringify(Array.from(challenge)),
+});
+const result = await db.select().from(Auth);
 ---
 
-<Layout title="Login" description="Login in progress...">
+<Layout title="Login" description="Authentification in progress...">
   <div class="container">
     <div class="content flex column">
-      <h1>Login in progress</h1>
-      <p>Challenge: {JSON.stringify(Array.from(challenge))}</p>
+      <h1>Login</h1>
+      <p>Authentification in progress ...</p>
+      {
+        result.map(({ id, creation_date, challenge, credential }) => (
+          <article>
+            <p>
+              id: {id} <br />
+            </p>
+            <p>
+              creation_date: {creation_date}
+              <br />
+            </p>
+            <p>
+              challenge: {challenge}
+              <br />
+            </p>
+            <p>
+              credential: {credential}
+              <br />
+            </p>
+            <p>
+              -------------
+              <br />
+            </p>
+          </article>
+        ))
+      }
       <Webauthn challenge={JSON.stringify(Array.from(challenge))} />
     </div>
   </div>
