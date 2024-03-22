@@ -36,13 +36,11 @@ const { challenge } = Astro.props;
           );
           localStorage.setItem("isLogged", JSON.stringify(true));
           window.history.go(-1);
-          window.location.reload();
         })
         .catch((err) => {
           console.log(err);
           localStorage.setItem("isLogged", JSON.stringify(false));
           window.history.go(-1);
-          window.location.reload();
         });
     };
 
@@ -85,7 +83,6 @@ const { challenge } = Astro.props;
           console.log(err);
           localStorage.setItem("isLogged", JSON.stringify(false));
           window.history.go(-1);
-          window.location.reload();
         });
     };
 
