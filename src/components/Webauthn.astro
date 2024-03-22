@@ -35,11 +35,7 @@ const { challenge } = Astro.props;
             })
           );
           localStorage.setItem("isLogged", JSON.stringify(true));
-          const loginIcon = document.getElementById("login-icon");
-          const logoutIcon = document.getElementById("logout-icon");
-          logoutIcon.classList.remove("hidden");
-          loginIcon.classList.add("hidden");
-          window.history.go(-1);
+          window.location.href = "/";
         })
         .catch((err) => {
           console.log(err);
