@@ -56,8 +56,8 @@
   authBtn.addEventListener("click", function () {
     if (JSON.parse(localStorage.getItem("isLogged"))) {
       localStorage.setItem("isLogged", JSON.stringify(false));
-      logoutIcon.classList.add("hidden");
       loginIcon.classList.remove("hidden");
+      logoutIcon.classList.add("hidden");
       if (window.location.pathname === "/login") {
         window.history.go(-1);
       } else {

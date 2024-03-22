@@ -12,8 +12,6 @@ const { challenge } = Astro.props;
     );
 
     const requestCredential = (credential) => {
-      const loginIcon = document.getElementById("login-icon");
-      const logoutIcon = document.getElementById("logout-icon");
       const publicKey = {
         challenge: challenge,
         allowCredentials: [
@@ -37,22 +35,19 @@ const { challenge } = Astro.props;
             })
           );
           localStorage.setItem("isLogged", JSON.stringify(true));
-          loginIcon.classList.add("hidden");
+          const loginIcon = document.getElementById("login-icon");
+          const logoutIcon = document.getElementById("logout-icon");
           logoutIcon.classList.remove("hidden");
+          loginIcon.classList.add("hidden");
           window.history.go(-1);
         })
         .catch((err) => {
           console.log(err);
-          localStorage.setItem("isLogged", JSON.stringify(false));
-          logoutIcon.classList.add("hidden");
-          loginIcon.classList.remove("hidden");
           window.history.go(-1);
         });
     };
 
     const createCredential = () => {
-      const loginIcon = document.getElementById("login-icon");
-      const logoutIcon = document.getElementById("logout-icon");
       const publicKey = {
         challenge: challenge,
         pubKeyCredParams: [
@@ -89,9 +84,6 @@ const { challenge } = Astro.props;
         })
         .catch((err) => {
           console.log(err);
-          localStorage.setItem("isLogged", JSON.stringify(false));
-          logoutIcon.classList.add("hidden");
-          loginIcon.classList.remove("hidden");
           window.history.go(-1);
         });
     };
