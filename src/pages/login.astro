@@ -20,7 +20,6 @@ await db.insert(Auth).values({
   creation_date: new Date(Date.now()),
   challenge: JSON.stringify(Array.from(challenge)),
 });
-const result = await db.select().from(Auth);
 ---
 
 <Layout title="Login" description="Authentification in progress...">
@@ -28,31 +27,6 @@ const result = await db.select().from(Auth);
     <div class="content flex column">
       <h1>Login</h1>
       <p>Authentification in progress ...</p>
-      {
-        result.map(({ id, creation_date, challenge, credential }) => (
-          <article>
-            <p>
-              id: {id} <br />
-            </p>
-            <p>
-              creation_date: {creation_date}
-              <br />
-            </p>
-            <p>
-              challenge: {challenge}
-              <br />
-            </p>
-            <p>
-              credential: {credential}
-              <br />
-            </p>
-            <p>
-              -------------
-              <br />
-            </p>
-          </article>
-        ))
-      }
       <Webauthn challenge={JSON.stringify(Array.from(challenge))} />
     </div>
   </div>
