@@ -7,8 +7,8 @@ import Webauthn from "../components/Webauthn.astro";
 const challenge = new Uint8Array(16);
 crypto.getRandomValues(challenge);
 
-/*import { db, Auth, and, lte, eq } from "astro:db";
-await db
+import { db, Auth, and, lte, eq } from "astro:db";
+/*await db
   .delete(Auth)
   .where(
     and(
