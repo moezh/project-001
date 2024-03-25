@@ -8,14 +8,12 @@ const challenge = new Uint8Array(16);
 crypto.getRandomValues(challenge);
 
 import { db, Auth, and, lte, eq } from "astro:db";
-await db
-  .delete(Auth)
-  .where(
-    and(
-      lte(Auth.creation_date, new Date(Date.now() - 1000 * 60 * 1)),
-      eq(Auth.credential, "")
-    )
-  );
+await db.delete(Auth).where(
+  /* and(
+      lte(Auth.creation_date, new Date(Date.now() - 1000 * 60 * 1)),*/
+  eq(Auth.credential, "")
+  //  )
+);
 /*await db.insert(Auth).values({
   creation_date: new Date(Date.now()),
   challenge: JSON.stringify(Array.from(challenge)),
